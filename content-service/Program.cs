@@ -4,6 +4,7 @@ using Steeltoe.Discovery.Client;
 using Steeltoe.Discovery.Eureka;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls("http://0.0.0.0:5229");
 
 
 // Add services to the container.

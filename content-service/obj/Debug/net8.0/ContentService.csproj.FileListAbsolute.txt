@@ -230,3 +230,4 @@ C:\Users\mouka\OneDrive\Bureau\Code-Tree\content-service\obj\Debug\net8.0\refint
 C:\Users\mouka\OneDrive\Bureau\Code-Tree\content-service\obj\Debug\net8.0\ContentService.pdb
 C:\Users\mouka\OneDrive\Bureau\Code-Tree\content-service\obj\Debug\net8.0\ContentService.genruntimeconfig.cache
 C:\Users\mouka\OneDrive\Bureau\Code-Tree\content-service\obj\Debug\net8.0\ref\ContentService.dll
+C:\Users\mouka\OneDrive\Bureau\Code-Tree\content-service\obj\Debug\net8.0\ContentService.sourcelink.json
