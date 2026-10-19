@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تقرير المعمارية وآلية العمل الشاملة - CodeTree V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 12mm 14mm 12mm;
+      @bottom-center {
+        content: counter(page);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+      background-color: #ffffff;
+      color: #1e293b;
+      line-height: 1.7;
+      font-size: 13.5px;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Cover / Header Banner */
+    .header-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #064e3b 100%);
+      color: #ffffff;
+      padding: 32px 28px;
+      border-radius: 14px;
+      margin-bottom: 25px;
+      border: 1px solid #334155;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+
+    .badge-tag {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .header-banner h1 {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 8px;
+      color: #f8fafc;
+      letter-spacing: -0.5px;
+    }
+
+    .header-banner p {
+      font-size: 14px;
+      color: #94a3b8;
+      max-width: 850px;
+      line-height: 1.6;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .meta-item {
+      font-size: 11.5px;
+    }
+
+    .meta-item .label {
+      color: #64748b;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .meta-item .val {
+      color: #e2e8f0;
+      font-weight: 700;
+    }
+
+    /* Section Styling */
+    .section {
+      margin-bottom: 26px;
+      page-break-inside: avoid;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .section-title .number {
+      background: #0ea5e9;
+      color: white;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    /* Cards & Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px;
+      page-break-inside: avoid;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .port-pill {
+      background: #e0f2fe;
+      color: #0369a1;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+    }
+
+    .tech-pill {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-size: 10.5px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .tech-java { background: #fee2e2; color: #991b1b; }
+    .tech-dotnet { background: #ede9fe; color: #5b21b6; }
+    .tech-python { background: #fef3c7; color: #92400e; }
+    .tech-react { background: #e0f2fe; color: #075985; }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 12.5px;
+    }
+
+    th, td {
+      padding: 9px 12px;
+      text-align: right;
+      border: 1px solid #e2e8f0;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    /* Code & Technical Blocks */
+    code, pre {
+      font-family: 'Fira Code', monospace;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .code-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 11px;
+      margin: 8px 0;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
+    /* Diagram Block */
+    .diagram-container {
+      background: #0f172a;
+      border-radius: 10px;
+      padding: 18px;
+      color: #e2e8f0;
+      margin: 14px 0;
+      border: 1px solid #334155;
+      page-break-inside: avoid;
+    }
+
+    .diagram-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .diagram-node {
+      background: #1e293b;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border-right: 4px solid #10b981;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .diagram-arrow {
+      text-align: center;
+      color: #38bdf8;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    /* Callout Alert */
+    .alert-box {
+      background: #ecfdf5;
+      border-right: 4px solid #10b981;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin: 12px 0;
+      color: #065f46;
+      font-size: 12.5px;
+    }
+
+    .alert-box.info {
+      background: #f0f9ff;
+      border-right-color: #0284c7;
+      color: #075985;
+    }
+
+    .page-break {
+      page-break-after: always;
+      height: 0;
+      display: block;
+    }
+
+    ul, ol {
+      padding-right: 20px;
+      margin: 6px 0;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 10.5px;
+      color: #94a3b8;
+      margin-top: 30px;
+      padding-top: 12px;
+      border-top: 1px solid #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Cover / Header Banner -->
+  <div class="header-banner">
+    <span class="badge-tag">التقرير الفني الشامل للمشروع</span>
+    <h1>منصة CodeTree V2 — التوثيق المعماري وآلية العمل الكاملة</h1>
+    <p>
+      شرح تفصيلي دقيق لكل مكونات وتدفقات البيانات داخل تطبيق <strong>CodeTree V2</strong>، وهو منصة برمجية تعليمية هجينة تعتمد على معمارية الخدمات المصغرة (Polyglot Microservices) لتقييم وتصحيح الأكواد آلياً (Moulinette) مع نظام تلعيب تفاعلي (Gamification).
+    </p>
+
+    <div class="meta-grid">
+      <div class="meta-item">
+        <span class="label">المعمارية:</span>
+        <span class="val">Microservices (Polyglot)</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">اللغات والتقنيات:</span>
+        <span class="val">Java, C# .NET, Python, React</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">إصدار التوثيق:</span>
+        <span class="val">V2.0 (Official Architecture)</span>
+      </div>
+      <div class="meta-item">
+        <span class="label">تاريخ الإصدار:</span>
+        <span class="val">2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1: Overview -->
+  <div class="section">
+    <div class="section-title">
+      <span class="number">1</span>
+      <span>نظرة عامة على التطبيق وفلسفة بنائه</span>
+    </div>
+    <p>
+      تطبيق <strong>CodeTree V2</strong> هو منصة متقدمة مصممة لتجربة تعليم البرمجة الممارسة العملية (Coding by Doing)، وهي مستوحاة من منصات عالمية رائدة مثل <em>LeetCode</em> و <em>HackerRank</em> ونظام التقييم الآلي الصارم <strong>Moulinette</strong> المعتمد في منظومة مدارس 42 و 1337 البرمجية.
+    </p>
+    <div class="alert-box info">
+      <strong>لماذا اختيرت معمارية Polyglot Microservices؟</strong><br>
+      بدلاً من بناء تطبيق موحد (Monolithic)، تم تقسيم النظام إلى خدمات مستقلة لكل منها دور متخصص تماماً، مع استخدام أفضل أداة لكل مهمة: 
+      الربط والشبكات عبر <strong>Spring Cloud</strong> لقوتها واستقرارها المؤسسي، وإدارة المستخدمين والمحتوى عبر <strong>.NET 8</strong> لسرعة معالجة الـ APIs وقوة Entity Framework، ومحرك تشغيل الأكواد عبر <strong>Python / FastAPI</strong> لقدرتها العالية على إدارة العمليات البرمجية الخارجية (Subprocesses) ومطابقة النصوص والتصحيح الآلي.
+    </div>
+  </div>
+
+  <!-- Section 2: Architectural Map -->
+  <div class="section">
+    <div class="section-title">
+      <span class="number">2</span>
+      <span>خريطة المنظومة وتدفق البيانات (System Architecture & Routing)</span>
+    </div>
+
+    <div class="diagram-container">
+      <div class="diagram-flow">
+        <div class="diagram-node">
+          <div>
+            <strong>1. الواجهة الأمامية (Frontend App)</strong>
+            <span style="display:block; font-size:10px; color:#94a3b8;">React 19 + TypeScript + TailwindCSS 4</span>
+          </div>
+          <span class="port-pill">Port 5173</span>
+        </div>
+        <div class="diagram-arrow">▼ [طلبات HTTP / REST موجهة حصراً للبوابة]</div>
+        <div class="diagram-node" style="border-right-color:#0284c7;">
+          <div>
+            <strong>2. بوابة الـ API المركزية (Spring Cloud Gateway)</strong>
+            <span style="display:block; font-size:10px; color:#94a3b8;">نقطة العبور الموحدة + إدارة CORS + توازن الأحمال الموجه لـ Eureka</span>
+          </div>
+          <span class="port-pill">Port 8080</span>
+        </div>
+        <div class="diagram-arrow">▼ [استعلام دوري وتوجيه ذكي عبر lb://] ◄────► خادم Eureka Discovery (Port 8761)</div>
+        <div class="grid-2" style="gap:8px;">
+          <div class="diagram-node" style="border-right-color:#a855f7;">
+            <div><strong>Identity Service</strong> (.NET 8)<br><span style="font-size:10px; color:#94a3b8;">/api/auth/**</span></div>
+            <span class="port-pill">Port 5026</span>
+          </div>
+          <div class="diagram-node" style="border-right-color:#3b82f6;">
+            <div><strong>Content Service</strong> (.NET 8)<br><span style="font-size:10px; color:#94a3b8;">/api/content/**</span></div>
+            <span class="port-pill">Port 5229</span>
+          </div>
+          <div class="diagram-node" style="border-right-color:#f59e0b;">
+            <div><strong>Gamification Service</strong> (Java)<br><span style="font-size:10px; color:#94a3b8;">/api/gamification/**</span></div>
+            <span class="port-pill">Port 8082</span>
+          </div>
+          <div class="diagram-node" style="border-right-color:#10b981;">
+            <div><strong>Code Engine (Moulinette)</strong> (Python)<br><span style="font-size:10px; color:#94a3b8;">/api/engine/** أو منفذ مباشر 8000</span></div>
+            <span class="port-pill">Port 8000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Section 3: Deep Dive Microservices -->
+  <div class="section">
+    <div class="section-title">
+      <span class="number">3</span>
+      <span>تشريح الخدمات المصغرة وآلية عمل كل خدمة بالتفصيل</span>
+    </div>
+
+    <!-- Service 1 & 2 -->
+    <div class="grid-2">
+      <!-- Eureka -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">1. خادم الاكتشاف (Discovery Service)</span>
+          <span class="port-pill">:8761</span>
+        </div>
+        <span class="tech-pill tech-java">Spring Cloud Netflix Eureka</span>
+        <p style="font-size:12px; color:#475569; margin-top:6px;">
+          <strong>الدور:</strong> سجل الهاتف المركزي (Service Registry) للنظام بالكامل.
+        </p>
+        <ul style="font-size:11.5px; color:#334155;">
+          <li>تتصل به كل خدمة تلقائياً عند إقلاعها وتُعلن عن اسمها ومكان وجودها (IP + Port).</li>
+          <li>يستقبل نبضات دورية (Heartbeats)؛ إذا انقطعت إشارة أي خدمة تُحذف من السجل فوراً لمنع سقوط الطلبات.</li>
+          <li>يسمح لـ Gateway بتوجيه الطلبات عبر الأسماء البرمجية (مثل <code>lb://CONTENT-SERVICE</code>) دون الحاجة لـ Hardcoded IPs.</li>
+        </ul>
+      </div>
+
+      <!-- Gateway -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">2. بوابة الواجهات (API Gateway)</span>
+          <span class="port-pill">:8080</span>
+        </div>
+        <span class="tech-pill tech-java">Spring Cloud Gateway</span>
+        <p style="font-size:12px; color:#475569; margin-top:6px;">
+          <strong>الدور:</strong> البوابة الحصرية والمحصنة لدخول ومغادرة جميع طلبات الواجهة.
+        </p>
+        <ul style="font-size:11.5px; color:#334155;">
+          <li><strong>إدارة الـ CORS:</strong> مجهزة للسماح فقط لتطبيق الـ React <code>http://localhost:5173</code> بكافة طرق HTTP.</li>
+          <li><strong>المطابقة المسارية (Route Matching):</strong> فرز المسارات الموجهة إلى <code>/api/auth</code>، <code>/api/content</code>، <code>/api/gamification</code>.</li>
+          <li><strong>توزيع الحمل (Load Balancing):</strong> موازنة الاستدعاءات ديناميكياً بين أي عدد من نُسخ الخدمات المشغلة.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="height: 12px;"></div>
+
+    <!-- Service 3 & 4 -->
+    <div class="grid-2">
+      <!-- Identity -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">3. خدمة الهوية (Identity Service)</span>
+          <span class="port-pill">:5026</span>
+        </div>
+        <span class="tech-pill tech-dotnet">.NET 8 Web API + JWT</span>
+        <p style="font-size:12px; color:#475569; margin-top:6px;">
+          <strong>الدور:</strong> إدارة حسابات المستخدمين والطلاب والمعلمين وتأمين النظام.
+        </p>
+        <ul style="font-size:11.5px; color:#334155;">
+          <li><strong>التسجيل (Register):</strong> إنشاء حساب مشفر بالكامل بالاعتماد على <code>ASP.NET Identity</code> في قاعدة بيانات <code>codetree_identity</code>.</li>
+          <li><strong>المصادقة (Login):</strong> إصدار توكن JWT موقّع بمفتاح سري (HMAC-SHA256) يحمل الـ Claims (UserId, Roles, Email) صالح لـ 3 ساعات.</li>
+          <li><strong>Steeltoe Discovery:</strong> تسجيل ذاتي سلس في خادم Eureka المكتوب بلغة جافا.</li>
+        </ul>
+      </div>
+
+      <!-- Content -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">4. خدمة المحتوى (Content Service)</span>
+          <span class="port-pill">:5229</span>
+        </div>
+        <span class="tech-pill tech-dotnet">.NET 8 + EF Core</span>
+        <p style="font-size:12px; color:#475569; margin-top:6px;">
+          <strong>الدور:</strong> إدارة الكورسات، المسارات البرمجية، بنك المسائل والتمارين.
+        </p>
+        <ul style="font-size:11.5px; color:#334155;">
+          <li><strong>نموذج Course:</strong> يحتوي على معرف الدورة، العنوان، الوصف، واللغة المستهدفة (C, Python, C#, Java).</li>
+          <li><strong>نموذج Lesson:</strong> الدروس والتمارين المرتبطة بالكورس وترتيبها ومحتواها التفصيلي.</li>
+          <li><strong>مخرجات التقييم:</strong> يخزن المعلم نص المسألة متضمناً علامة <code>Output: [Expected]</code> لتقوم Moulinette باختباره تلقائياً.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="height: 12px;"></div>
+
+    <!-- Service 5 & 6 -->
+    <div class="grid-2">
+      <!-- Gamification -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">5. خدمة التحفيز (Gamification)</span>
+          <span class="port-pill">:8082</span>
+        </div>
+        <span class="tech-pill tech-java">Spring Boot 3 + Spring Data JPA</span>
+        <p style="font-size:12px; color:#475569; margin-top:6px;">
+          <strong>الدور:</strong> مكافأة الطلاب بالنقاط والمستويات ولوحة المتصدرين.
+        </p>
+        <ul style="font-size:11.5px; color:#334155;">
+          <li><strong>سجل التقدم (UserProgress):</strong> ربط كل <code>userId</code> بنقاط الخبرة (XP) والمستوى (Level).</li>
+          <li><strong>معادلة الترقي الذاتية:</strong>
+            <code>Level = (Points / 100) + 1</code> — كل 100 نقطة تمنح الطالب ترقية فورية.
+          </li>
+          <li><strong>لوحة الشرف (Leaderboard):</strong> تزويد لوحات التحكم بالترتيب التنازلي للطلاب الأعلى إنجازاً.</li>
+        </ul>
+      </div>
+
+      <!-- Code Engine -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">6. محرك الأكواد (Code Engine / Moulinette)</span>
+          <span class="port-pill">:8000</span>
+        </div>
+        <span class="tech-pill tech-python">Python 3.10 + FastAPI</span>
+        <p style="font-size:12px; color:#475569; margin-top:6px;">
+          <strong>الدور:</strong> تصحيح وتنفيذ الأكواد في بيئة معزولة ومحمية.
+        </p>
+        <ul style="font-size:11.5px; color:#334155;">
+          <li><strong>تنفيذ Python:</strong> تشغيل في <code>subprocess</code> مستقل مع سقف زمني إجباري (5 ثوانٍ) لمنع التجميد.</li>
+          <li><strong>مترجم لغة C الكامل:</strong> كتابة الكود داخل مجلد معزول <code>tempfile</code>، ثم التجميع عبر <code>gcc</code> والتشغيل والتقاط مخرجات <code>stdout</code> و <code>stderr</code>، ثم إبادة الملفات بعد التنفيذ.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Section 4: Frontend App Architecture -->
+  <div class="section">
+    <div class="section-title">
+      <span class="number">4</span>
+      <span>هندسة الواجهة الأمامية وشاشات تجربة المستخدم (Frontend UX)</span>
+    </div>
+
+    <p style="margin-bottom: 10px;">
+      تم بناء الواجهة باستخدام <strong>React 19 و Vite و TailwindCSS 4</strong> لتقديم تجربة فائقة السرعة مع تصميم عصري بنمط داكن (Dark Theme) مستوحى من بيئات المطورين الاحترافية:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>الصفحة</th>
+          <th>المسار</th>
+          <th>الخدمة المرتبطة</th>
+          <th>الوظيفة والآلية</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>الرئيسية (Dashboard)</strong></td>
+          <td><code>/</code></td>
+          <td>Content + Gamification</td>
+          <td>عرض الدورات البرمجية، وبطاقة مستوى الطالب وإجمالي نقاط XP المحصلة.</td>
+        </tr>
+        <tr>
+          <td><strong>محرر الأكواد (Code Engine)</strong></td>
+          <td><code>/engine</code></td>
+          <td>Code Engine + Gamification</td>
+          <td>محرر كامل مقسم مع نافذة طرفية سوداء (Terminal) لتشغيل الكود وتقييم حل التمرين تلقائياً ومكافأة الطالب بالنقاط.</td>
+        </tr>
+        <tr>
+          <td><strong>تفاصيل الدورة (Course Details)</strong></td>
+          <td><code>/course/:id</code></td>
+          <td>Content Service</td>
+          <td>قائمة التمارين والدروس المرتبطة بالكورس، مع زر مباشر لحل كل تمرين في المحرر.</td>
+        </tr>
+        <tr>
+          <td><strong>لوحة المعلم (Teacher Dashboard)</strong></td>
+          <td><code>/teacher</code></td>
+          <td>Content + Gamification</td>
+          <td>إنشاء دورات جديدة، كتابة تمارين وإرفاق نص المخرج المطلوب، ومتابعة لوحة صدارة الطلاب.</td>
+        </tr>
+        <tr>
+          <td><strong>لوحة الإدارة (Admin Panel)</strong></td>
+          <td><code>/admin</code></td>
+          <td>Identity + Services Health</td>
+          <td>فحص نبض وحالة السيرفرات الستة، وإدارة حسابات الطلاب والمعلمين وإمكانية حظرهم.</td>
+        </tr>
+        <tr>
+          <td><strong>الاشتراكات (Pricing)</strong></td>
+          <td><code>/pricing</code></td>
+          <td>مستقلة / بوابة دفع</td>
+          <td>عرض باقات الاشتراك للطلاب والمدارس والمؤسسات مع نموذج دفع بنكي مشفر.</td>
+        </tr>
+        <tr>
+          <td><strong>تسجيل الدخول والتسجيل</strong></td>
+          <td><code>/login</code> & <code>/register</code></td>
+          <td>Identity Service</td>
+          <td>نماذج الدخول وتخزين التوكن و UserId في <code>localStorage</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 5: The Moulinette Validation Loop -->
+  <div class="section">
+    <div class="section-title">
+      <span class="number">5</span>
+      <span>دورة التقييم الآلي للأكواد البرمجية (The Moulinette Test Cycle)</span>
+    </div>
+
+    <p>
+      كيف تتحقق المنصة من صحة كود الطالب وتمنحه النقاط دون أي تدخل بشري؟
+    </p>
+
+    <div class="alert-box">
+      <strong>خطوات دورة التقييم بالتسلسل:</strong>
+      <ol style="margin-top:6px; font-size:12px;">
+        <li><strong>استخراج النتيجة المتوقعة:</strong> يقرأ المحرر نص التمرين المخزن في قاعدة البيانات، ويبحث عبر التعبير النمطي عن السطر التالي: <code>Output:\s*(.*)</code>.</li>
+        <li><strong>التنفيذ المعزول:</strong> يُرسل كود الطالب (سواء Python أو C) إلى <code>http://localhost:8000/execute</code>. يقوم المحرك بترجمته وتشغيله داخل Sandbox ويعيد النص المطبوع الفعلي.</li>
+        <li><strong>المطابقة الذكية:</strong> يقارن النظام النتيجة الفعلية مع المتوقعة بعد تنظيف الفراغات (Trim).</li>
+        <li><strong>الاعتماد والمكافأة:</strong>
+          إذا تطابقت النتائج، يطبع المحرر <code>✅ TEST PASSED! Output matches expected result</code>،
+          ثم يرسل طلباً خلفياً:
+          <div class="code-box">POST http://localhost:8080/api/gamification/progress/{userId}/add-points?points=10</div>
+          تستقبل خدمة التحفيز الطلب، وتضيف 10 نقاط للطالب وتحدث مستواه في قاعدة البيانات فوراً.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- Section 6: Databases & Storage Architecture -->
+  <div class="section">
+    <div class="section-title">
+      <span class="number">6</span>
+      <span>معمارية قواعد البيانات وإعدادات Docker</span>
+    </div>
+
+    <p style="margin-bottom:8px;">
+      تطبيقاً لمبدأ الخدمات المصغرة <strong>"قاعدة بيانات لكل خدمة" (Database per Service)</strong>، تم فصل البيانات لمنع التداخل والاعتمادية المتبادلة:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>قاعدة البيانات</th>
+          <th>الخدمة المالكة</th>
+          <th>الجداول الرئيسية</th>
+          <th>الوصف</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>codetree_identity</code></td>
+          <td>Identity Service</td>
+          <td><code>AspNetUsers</code>, <code>AspNetRoles</code>, <code>AspNetUserClaims</code></td>
+          <td>تخزين بيانات المستخدمين، التجزئة المشفرة لكلمات السر، والأدوار والصلاحيات.</td>
+        </tr>
+        <tr>
+          <td><code>codetree_content</code></td>
+          <td>Content Service</td>
+          <td><code>Courses</code>, <code>Lessons</code></td>
+          <td>تخزين الدورات ولغات البرمجة ونصوص التمارين ونواتج التصحيح المطلوبة.</td>
+        </tr>
+        <tr>
+          <td><code>codetree_gamification</code></td>
+          <td>Gamification Service</td>
+          <td><code>UserProgress</code></td>
+          <td>تخزين مستويات الطلاب ونقاط الـ XP المحصلة وتواريخ التحديث.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="code-box">
+# إعدادات Docker Compose (docker-compose.yml)
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: codetree-v2-postgres
+    ports: ["5432:5432"]
+    volumes:
+      - ./init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
+  pgadmin:
+    image: dpage/pgadmin4
+    ports: ["5050:80"] # واجهة بصرية لإدارة القواعد عبر المتصفح
+    </div>
+  </div>
+
+  <!-- Section 7: Startup & Automation -->
+  <div class="section">
+    <div class="section-title">
+      <span class="number">7</span>
+      <span>آلية التشغيل والإيقاف الآلي (Automation & Operations)</span>
+    </div>
+
+    <p>
+      نظراً لتعقيد تشغيل 6 خدمات مختلفة اللغات يدوياً، تم إرفاق ملفات دفعية ذكية (Batch Scripts) تدير الترتيب والتوقيتات الحرجة:
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <strong style="color:#059669; font-size:14px;">سكربت التشغيل: start-all.bat</strong>
+        <p style="font-size:11.5px; color:#475569; margin:6px 0;">
+          يقوم بفتح كل خدمة في نافذة Terminal مستقلة ومراقبة الترتيب الحرج لضمان استقرار الاتصالات:
+        </p>
+        <ol style="font-size:11px; color:#334155;">
+          <li><strong>Discovery Service:</strong> تشغيل Eureka والانتظار 15 ثانية لتهيئة السجل.</li>
+          <li><strong>Gamification Service:</strong> تشغيل خدمة الجافا للربط.</li>
+          <li><strong>Identity Service:</strong> تشغيل خدمة المستخدمين عبر <code>dotnet run</code>.</li>
+          <li><strong>Content Service:</strong> تشغيل خدمة المحتوى عبر <code>dotnet run</code>.</li>
+          <li><strong>Code Engine:</strong> تفعيل بيئة Python وتشغيل Uvicorn.</li>
+          <li><strong>API Gateway:</strong> تشغيل البوابة وربط كافة المسارات.</li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <strong style="color:#dc2626; font-size:14px;">سكربت الإيقاف: stop-all.bat</strong>
+        <p style="font-size:11.5px; color:#475569; margin:6px 0;">
+          ينهي العمليات بضغطة واحدة لتحرير المنافذ المحجوزة:
+        </p>
+        <div class="code-box" style="margin-top:4px;">
+taskkill /F /IM "java.exe" /T
+taskkill /F /IM "dotnet.exe" /T
+taskkill /F /IM "python.exe" /T
+        </div>
+        <p style="font-size:11px; color:#64748b;">
+          يضمن إغلاق كافة منافذ العمليات في الذاكرة دون ترك عمليات يتيمة (Zombie Processes).
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 8: Summary -->
+  <div class="section">
+    <div class="section-title">
+      <span class="number">8</span>
+      <span>الخلاصة والسمات الهندسية البارزة</span>
+    </div>
+    <ul style="font-size:12.5px; color:#334155; line-height:1.8;">
+      <li><strong>عزل الأخطاء (Fault Isolation):</strong> تعطل محرك الأكواد أو خدمة التحفيز لن يؤثر إطلاقاً على تصفح المحتوى أو تسجيل الدخول.</li>
+      <li><strong>التدرج والتوسع الأفقي (Horizontal Scalability):</strong> يمكن مضاعفة نسخ خدمة <code>Code Engine</code> لمواكبة آلاف الطلاب بالتوازي، ويتكفل خادم Eureka و Gateway بتوزيع الأحمال عليها فوراً.</li>
+      <li><strong>الأمان في تقييم الأكواد:</strong> الفصل الكامل في مجلدات مؤقتة وفرض حد أقصى للوقت (Timeouts) يحمي الخوادم من الاستغلال أو الاستنزاف.</li>
+    </ul>
+  </div>
+
+  <div class="footer-note">
+    CodeTree V2 — تم إنشاء هذا التقرير التوثيقي المعماري تلقائياً وبأعلى معايير التوثيق الهندسي البرمجي.
+  </div>
+
+</div>
+
+</body>
+</html>
