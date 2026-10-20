@@ -1,0 +1,43 @@
+sequenceDiagram
+    autonumber
+    actor Student as 👨‍🎓 الطالب في المتصفح
+    participant Gateway as 🚪 البوابة (Gateway :8080)
+    participant Eureka as 📖 المستكشف (Eureka :8761)
+    participant Content as 📚 المحتوى (.NET :5229)
+    participant Engine as ⚡ محرك بايثون (:8000)
+    participant Gamification as 🎮 نظام النقاط (Java :8082)
+    participant DB as 🗄️ قاعدة البيانات
+
+    %% المرحلة 1: جلب المسألة
+    rect rgb(20, 30, 45)
+        Note over Student, Content: 1. مرحلة تحميل التمرين
+        Student->>Gateway: طلب بيانات التمرين: GET /api/content/courses
+        Gateway->>Eureka: أين تقع CONTENT-SERVICE؟
+        Eureka-->>Gateway: تعمل على المنفذ 5229
+        Gateway->>Content: توجيه الطلب إلى 5229
+        Content-->>Gateway: إرجاع نص التمرين ومخرجاته المطلوبة (Output: ...)
+        Gateway-->>Student: عرض المسألة في المتصفح
+    end
+
+    %% المرحلة 2: تشغيل وتصحيح الكود
+    rect rgb(15, 40, 30)
+        Note over Student, Engine: 2. مرحلة تشغيل وتصحيح الكود
+        Student->>Gateway: ضغط زر Submit: POST /api/engine/execute {code, lang}
+        Gateway->>Engine: توجيه الطلب إلى محرك الأكواد عبر البوابة
+        Note over Engine: عزل الكود في مجلد مؤقت<br/>تشغيل C عبر GCC مع Timeout 5s
+        Engine-->>Gateway: إرجاع النتيجة الفعلية (Output: "Welcome to CodeTree!")
+        Gateway-->>Student: 200 OK + نص المخرجات
+    end
+
+    %% المرحلة 3: التقييم والمكافأة
+    rect rgb(35, 20, 45)
+        Note over Student, DB: 3. مرحلة التقييم الآلي ومنح النقاط
+        Note over Student: مطابقة مخرجات الطالب مع النتيجة المتوقعة عبر Regex<br/>النتيجة متطابقة 100% ✅ (Test Passed)
+        Student->>Gateway: POST /api/gamification/progress/user1/add-points?points=10
+        Gateway->>Gamification: توجيه الطلب لخدمة التحفيز (Port: 8082)
+        Note over Gamification: معادلة رفع المستوى:<br/>Level = (Points / 100) + 1
+        Gamification->>DB: استعلام SQL: تحديث النقاط والمستوى في الداتابيس
+        DB-->>Gamification: تم التخزين بنجاح
+        Gamification-->>Gateway: 200 OK {points: 20, level: 1}
+        Gateway-->>Student: تحديث الشاشة فوراً: 🌟 You earned 10 XP!
+    end

@@ -1,0 +1,52 @@
+flowchart TD
+    %% الطبقة الأولى: العميل
+    subgraph ClientLayer ["1. طبقة واجهة المستخدم (Client Layer)"]
+        ReactApp["🌐 تطبيق الواجهة الأمامية (React 19 + TypeScript)<br/>Port: 5173<br/>محرر الأكواد + لوحات التحكم + الصفحات"]
+    end
+
+    %% الطبقة الثانية: البنية التحتية
+    subgraph InfraLayer ["2. طبقة التوجيه والاكتشاف (Infrastructure Backbone)"]
+        Gateway["🚪 بوابة الـ API (Spring Cloud Gateway)<br/>Port: 8080<br/>• نقطة العبور الموحدة<br/>• إدارة الـ CORS<br/>• موزع الأحمال (Load Balancer)<br/>• فلتر التلوين المباشر"]
+        Eureka["📖 خادم الاكتشاف (Netflix Eureka Server)<br/>Port: 8761<br/>• سجل الخدمات المركزي (Service Registry)<br/>• مراقبة نبضات الحياة (Heartbeats)"]
+    end
+
+    %% الطبقة الثالثة: الخدمات المصغرة
+    subgraph ServicesLayer ["3. طبقة الخدمات المصغرة (Microservices Layer)"]
+        Identity["🔐 خدمة الهوية (Identity Service)<br/>C# / .NET 8 (Port: 5026)<br/>تسجيل الحسابات + توكن JWT"]
+        Content["📚 خدمة المحتوى (Content Service)<br/>C# / .NET 8 (Port: 5229)<br/>إدارة المسارات، الكورسات والتمارين"]
+        Gamification["🎮 خدمة التحفيز (Gamification Service)<br/>Java 17 / Spring Boot (Port: 8082)<br/>احتساب النقاط، المستويات ولوحة الصدارة"]
+        Engine["⚡ محرك الأكواد (Code Engine / Moulinette)<br/>Python / FastAPI (Port: 8000)<br/>المترجم الآلي وتنفيذ الأكواد"]
+    end
+
+    %% الطبقة الرابعة: قواعد البيانات والتشغيل
+    subgraph StorageLayer ["4. طبقة قواعد البيانات والتنفيذ (Storage & Execution)"]
+        DB_Identity[("🗄️ codetree_identity<br/>(AspNetUsers)")]
+        DB_Content[("🗄️ codetree_content<br/>(Courses, Lessons)")]
+        DB_Gamification[("🗄️ codetree_gamification<br/>(UserProgress)")]
+        Sandbox["🧪 بيئة معزولة (Sandbox / TempDirectory)<br/>• تجميع C عبر GCC<br/>• تشغيل Python Subprocess<br/>• سقف زمني إجباري (Timeout 5s)"]
+    end
+
+    %% مسارات الربط
+    ReactApp -->|"كل الطلبات تمر عبر البوابة الموحدة<br/>http://localhost:8080/api/..."| Gateway
+
+    Gateway <-->|"1. الاستعلام ومزامنة عناوين الخدمات"| Eureka
+    Identity -.->|"تسجيل كـ Eureka Client"| Eureka
+    Content -.->|"تسجيل كـ Eureka Client"| Eureka
+    Gamification -.->|"تسجيل كـ Eureka Client"| Eureka
+    Engine -.->|"تسجيل كـ Eureka Client"| Eureka
+
+    Gateway -->|"lb://IDENTITY-SERVICE (/api/auth/**)"| Identity
+    Gateway -->|"lb://CONTENT-SERVICE (/api/content/**)"| Content
+    Gateway -->|"lb://GAMIFICATION-SERVICE (/api/gamification/**)"| Gamification
+    Gateway -->|"lb://ENGINE-SERVICE (/api/engine/**)"| Engine
+
+    Identity --> DB_Identity
+    Content --> DB_Content
+    Gamification --> DB_Gamification
+    Engine --> Sandbox
+
+    %% تنسيق الألوان
+    style ClientLayer fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style InfraLayer fill:#1e293b,stroke:#0284c7,stroke-width:2px,color:#fff
+    style ServicesLayer fill:#111827,stroke:#10b981,stroke-width:2px,color:#fff
+    style StorageLayer fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#fff
