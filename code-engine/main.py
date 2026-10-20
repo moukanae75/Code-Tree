@@ -29,13 +29,14 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"], 
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# CORS is centrally managed by API Gateway (port 8080)
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"], 
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 class CodeExecutionRequest(BaseModel):
     language: str
@@ -94,6 +95,7 @@ def execute_c(code: str, input_data: str):
             return str(e)
 
 @app.post("/execute")
+@app.post("/api/engine/execute")
 def execute_code(request: CodeExecutionRequest):
     language = request.language.lower()
     

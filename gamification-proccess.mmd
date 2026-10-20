@@ -1,0 +1,30 @@
+sequenceDiagram
+    autonumber
+    actor Student as 👨‍💻 المتصفح (React)
+    participant Engine as ⚡ محرك بايثون (Code Engine :8000)
+    participant Gateway as 🚪 البوابة (Gateway :8080)
+    participant Eureka as 📖 خادم السجل (Eureka :8761)
+    participant Gamification as 🎮 خدمة التحفيز (Java :8082)
+    participant MySQL as 🗄️ قاعدة البيانات (MySQL)
+
+    Student->>Engine: 1. إرسال الكود: POST /execute
+    activate Engine
+    Note over Engine: معالجة معزولة (Sandbox):<br/>تجميع وتشغيل مع Timeout 5s
+    Engine-->>Student: 2. إرجاع المخرجات المطبوعة: Output JSON
+    deactivate Engine
+
+    Note over Student: مطابقة النتيجة مع Regex:<br/>هل المخرج يطابق المطلوب؟ ✅ نعم!
+
+    Student->>Gateway: 3. طلب إضافة نقاط: POST /api/gamification/progress/user1/add-points
+    activate Gateway
+    Gateway->>Eureka: استعلام عن مكان Gamification Service
+    Eureka-->>Gateway: تعمل على 127.0.0.1:8082
+    Gateway->>Gamification: 4. توجيه الطلب للخدمة
+    deactivate Gateway
+    activate Gamification
+
+    Note over Gamification: حساب المستوى الجديد:<br/>Level = (Points / 100) + 1
+    Gamification->>MySQL: 5. استعلام التخزين: UPDATE user_progress SET points=..., level=...
+    MySQL-->>Gamification: تم الحفظ بنجاح
+    Gamification-->>Student: 6. الرد النهائي 200 OK
+    deactivate Gamification

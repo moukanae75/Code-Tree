@@ -4,11 +4,16 @@ server:
 spring:
   application:
     name: gateway-service
+  output:
+    ansi:
+      enabled: ALWAYS
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
       globalcors:
         cors-configurations:
           '[/**]':
@@ -57,8 +62,9 @@ eureka:
 
 logging:
   level:
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.http.server.reactive: DEBUG
-    org.springframework.web.reactive: DEBUG
+    root: INFO
+    org.springframework.cloud.gateway: INFO
+    com.codetree.gateway_service: INFO
+
 
 

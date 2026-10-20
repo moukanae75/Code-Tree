@@ -21,7 +21,7 @@ export default function CodeEngine() {
     setOutput('');
     setIsSuccess(false);
     try {
-      const res = await axios.post('http://localhost:8000/execute', {
+      const res = await axios.post('http://localhost:8080/api/engine/execute', {
         language,
         code
       });
@@ -55,7 +55,7 @@ export default function CodeEngine() {
 
       setOutput(newOutput);
     } catch (err: any) {
-      setOutput(`Error: ${err.message}\n\nMake sure the Code Engine service is running on port 8000.`);
+      setOutput(`Error: ${err.message}\n\nMake sure the API Gateway is running on port 8080 and services are registered.`);
     } finally {
       setIsLoading(false);
     }

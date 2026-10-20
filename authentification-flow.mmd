@@ -1,0 +1,15 @@
+sequenceDiagram
+    autonumber
+    actor User as 👤 المستخدم (Login Page)
+    participant Gateway as 🚪 البوابة (:8080)
+    participant Identity as 🔐 خدمة الهوية (.NET :5026)
+    participant DB as 🗄️ قاعدة codetree_identity
+
+    User->>Gateway: 1. POST /api/auth/login {email, password}
+    Gateway->>Identity: 2. توجيه الطلب إلى 127.0.0.1:5026
+    Identity->>DB: 3. البحث عن الإيميل في جدول AspNetUsers
+    DB-->>Identity: إرجاع بيانات المستخدم والهاش (PasswordHash)
+    Note over Identity: التحقق من كلمة السر عبر خوارزمية التجزئة<br/>إنشاء توكن JWT مشفر وموقع بـ Key سري
+    Identity-->>Gateway: 4. إرجاع الـ Token + تاريخ الصلاحية
+    Gateway-->>User: 5. الرد إلى المتصفح
+    Note over User: تخزين التوكن في localStorage<br/>localStorage.setItem('token', token)
