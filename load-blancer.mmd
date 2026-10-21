@@ -1,0 +1,20 @@
+sequenceDiagram
+    autonumber
+    actor Front as Frontend (React)
+    participant GW as API Gateway (:8080)
+    participant LB as Load Balancer (داخل Gateway)
+    participant Eureka as Eureka Server (:8761)
+    participant S1 as Notification Service (192.168.1.10:8081)
+
+    Front->>GW: GET /api/v1/notifications/unread
+    Note over GW: 1. فحص الـ Predicates: المسار يطابق notification-route!
+    Note over GW: 2. قراءة الـ URI: وجدنا القالب lb://NOTIFICATION-SERVICE
+    GW->>LB: تفضل هذا الاسم: NOTIFICATION-SERVICE، أين أرسله؟
+    Note over LB,Eureka: الـ Gateway يحتفظ بنسخة Cache محلية من Eureka تتحدث دورياً
+    LB-->>GW: السيرفرات المتاحة هي [192.168.1.10:8081، 192.168.1.12:8081]<br/>باستخدام (Round Robin) اخترنا: 192.168.1.10:8081
+    Note over GW: 3. ملء القالب (URL Reconstruction):<br/>lb://NOTIFICATION-SERVICE -> http://192.168.1.10:8081
+    GW->>S1: Forward: GET http://192.168.1.10:8081/api/v1/notifications/unread
+    S1-->>GW: HTTP 200 OK (البيانات)
+    GW-->>Front: إرجاع الرد للفرونت إند
+
+

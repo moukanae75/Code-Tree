@@ -1,0 +1,15 @@
+flowchart TD
+    Req[طلب قادم من المستخدم] --> LB[Spring Cloud LoadBalancer]
+    LB --> Filter{هل السيرفر UP؟}
+    Filter -- نعم --> Algo[تطبيق خوارزمية التوزيع]
+    
+    subgraph Algorithms [أشهر الخوارزميات]
+        RR["1. التناوب الدوري (Round Robin) - الافتراضية"]
+        Rand["2. عشوائي (Random)"]
+        Zone["3. الأقرب شبكياً (Same-Zone Preference)"]
+    end
+    
+    Algo --> RR
+    RR -->|الطلب 1| S1["السيرفر الأول (:8082)"]
+    RR -->|الطلب 2| S2["السيرفر الثاني (:8083)"]
+    RR -->|الطلب 3| S1
